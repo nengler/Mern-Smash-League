@@ -1,0 +1,96 @@
+html,
+body {
+  font-family: $font-body;
+}
+
+.container {
+  max-width: 95%;
+  margin: auto;
+  padding-top: 3rem;
+  padding-bottom: 2rem;
+}
+
+table {
+  width: 100%;
+  display: table;
+  overflow-x: auto;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0;
+  align-items: center;
+}
+
+.button {
+  background-color: $color-secondary;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  border-width: 0px;
+  font-size: 1.05rem;
+  font-weight: bold;
+  transition: 0.5s all;
+}
+
+.button:disabled {
+  background-color: $button-disabled;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.pl-1 {
+  padding-left: 1rem;
+}
+
+.pr-1 {
+  padding-right: 1rem;
+}
+
+label {
+  padding-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+select,
+input {
+  font-size: 1.05rem;
+  padding: 0.25rem 0.5rem;
+}
+
+@media (min-width: 575.98px) {
+  .container {
+    max-width: 95%;
+  }
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (min-width: 767.98px) {
+  .container {
+    max-width: 90%;
+  }
+}
+
+// Medium devices (tablets, less than 992px)
+@media (min-width: 991.98px) {
+  .container {
+    max-width: 85%;
+  }
+}
+
+@media (min-width: 1199.98px) {
+  .container {
+    max-width: 80%;
+  }
+}

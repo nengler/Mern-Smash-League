@@ -19,6 +19,10 @@ const gameSchema = new Schema(
       type: Number,
       required: true,
     },
+    date_played: {
+      type: Date,
+      required: true,
+    },
   },
   {
     timestamps: true,

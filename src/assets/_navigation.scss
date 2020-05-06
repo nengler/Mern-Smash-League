@@ -1,0 +1,76 @@
+.nav {
+  background-color: $color-main;
+  padding: 2rem 0;
+  font-size: 1.5rem;
+}
+
+.nav-big {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  .nav-item {
+    padding: 0 1rem;
+  }
+
+  .nav-item:hover:after {
+    width: 100%;
+  }
+}
+
+.nav-small {
+  display: block;
+  text-align: center;
+}
+
+.nav-item {
+  color: $non-active-item;
+}
+
+.nav-item:hover {
+  color: $active-item;
+  font-weight: bold;
+  transition: all 300ms;
+}
+
+.nav-item:after {
+  content: "";
+  width: 0px;
+  height: 1.5px;
+  display: block;
+  background: $active-item;
+  transition: 300ms;
+}
+
+.active-nav-item {
+  color: $active-item;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.nav-button {
+  background-color: $color-main;
+  border: 1px solid white;
+}
+
+.open-sandwich {
+  padding: 1rem 0;
+  z-index: 1;
+  display: block;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  background-color: $color-main;
+
+  li {
+    padding: 0.5rem 0;
+  }
+}
+
+@media (min-width: 575.98px) {
+  .nav-big {
+    display: flex;
+  }
+  .nav-small {
+    display: none;
+  }
+}
