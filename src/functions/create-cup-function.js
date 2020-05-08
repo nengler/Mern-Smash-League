@@ -4,12 +4,14 @@ import { APIROUTE } from "../constants/routes";
 
 function CreateCupFunction() {
   const [cupName, setCupName] = useState("");
+  const [cupType, setCupType] = useState("league");
   const isInvalid = cupName === "";
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const cup = {
       cup_name: cupName,
+      type: cupType,
     };
     axios
       .post(APIROUTE + "cups/add", cup)
@@ -30,6 +32,13 @@ function CreateCupFunction() {
                 onChange={(e) => setCupName(e.target.value)}
               />
             </div>
+            <select
+              value={cupType}
+              onChange={(e) => setCupType(e.target.value)}
+            >
+              <option value="league">League</option>
+              <option value="tournament">Tournament</option>
+            </select>
             <div className="pl-1">
               <button className="button" disabled={isInvalid}>
                 Create Cup

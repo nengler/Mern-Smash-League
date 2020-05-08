@@ -53,6 +53,21 @@ class CreateGame extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  handleCupChange = (event) => {
+    let cupIndex = -1;
+    this.setState({ [event.target.name]: event.target.value });
+    this.state.cups.forEach((cup, index) => {
+      if (cup.cupName === event.target.value) {
+        cupIndex = index;
+      }
+    });
+    console.log(cupIndex);
+    this.setState({
+      winner: this.state.players[cupIndex][0],
+      loser: this.state.players[cupIndex][1],
+    });
+  };
+
   handleSubmit = (event) => {
     event.preventDefault();
     const { winner, loser, mapWins, mapLosses, date, cupSelected } = this.state;
@@ -89,13 +104,13 @@ class CreateGame extends Component {
     });
     return (
       <div>
-        <h1 className="header create-game-header">Add Game Record</h1>
+        <h1 className="header create-cup-header">Add Game Record</h1>
         <form onSubmit={this.handleSubmit}>
           <div className="row">
             <select
               name="cupSelected"
               value={this.state.cupSelected}
-              onChange={this.handleChange}
+              onChange={this.handleCupChange}
             >
               {this.state.cups.map((cup) => (
                 <option key={cup.cupName} value={cup.cupName}>

@@ -1,6 +1,6 @@
 .standings-table {
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 1.25rem;
 
   th {
     font-size: 1.15rem;
@@ -24,4 +24,11 @@
   font-size: 2rem;
 }
 
+.standings-header {
+  padding-bottom: 1rem;
+}
+
+.standings-checkbox {
+  padding: 1.25rem 0;
+}
 //clip-path: ellipse(100% 70% at 50% 25%);

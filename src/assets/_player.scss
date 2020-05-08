@@ -1,11 +1,39 @@
+.player {
+  td {
+    cursor: default;
+  }
+}
+
 .player-name {
   font-weight: bold;
   text-decoration: underline;
+  padding-bottom: 1.25rem;
 }
 
-.player-header {
-  font-size: 1.5rem;
-  padding-top: 1.5rem;
+.player-checkbox {
+  padding: 1rem 0 2rem 0;
+}
+
+.cup-stats {
+  display: flex;
+  flex-flow: column;
+  padding-bottom: 1.25rem;
+}
+
+.player-cup-stats {
+  max-width: 100%;
+  width: 100%;
+}
+
+.player-cup-info {
+  b {
+    font-weight: bold;
+  }
+}
+
+.player-cup-games {
+  max-width: 100%;
+  width: 100%;
 }
 
 .player-table {
@@ -28,4 +56,37 @@
 
 .lost-game {
   background-color: $primary-red;
+}
+
+.player-cup-games {
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+.player-header {
+  font-size: 1.75rem;
+  padding-bottom: 1rem;
+}
+
+.player-table {
+  margin-top: 0;
+  td {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+@media (min-width: 767.98px) {
+  .player-cup-stats {
+    width: 20%;
+    align-self: center;
+  }
+  .player-cup-games {
+    width: 80%;
+  }
+  .cup-stats {
+    flex-flow: row;
+  }
+  .player-cup-games {
+    margin: 0;
+  }
 }

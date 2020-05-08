@@ -36,9 +36,9 @@ function orderPlayersByWins(players) {
   return players;
 }
 
-router.route("/").get((req, res) => {
+router.route("/leagues").get((req, res) => {
   arrayOfCupsPlayersSorted = new Array();
-  Cup.find()
+  Cup.find({ type: "league" })
     .then((cups) => {
       cups.forEach((cup) => {
         let cupNameAndPlayers = new Object();
@@ -72,9 +72,11 @@ router.route("/notSorted").get((req, res) => {
 
 router.route("/add").post((req, res) => {
   const cup_name = req.body.cup_name;
+  const type = req.body.type;
 
   const newCup = new Cup({
     cup_name,
+    type,
   });
 
   newCup
@@ -83,7 +85,6 @@ router.route("/add").post((req, res) => {
       res.json("Cup added!");
     })
     .catch((err) => {
-      console.log(err);
       res.status(400).json("Error:" + err);
     });
 });
@@ -100,15 +101,78 @@ router.route("/:id").delete((req, res) => {
     .catch((err) => res.status(400).json("Error:" + err));
 });
 
+function getAllPlayerGames(value, playerName) {
+  if (value.winner === playerName || value.loser === playerName) return value;
+}
+
+router.route("/player/:id").get((req, res) => {
+  Cup.find({ "players.username": req.params.id })
+    .then((cups) => {
+      let filteredGames = [];
+      let overallPlayerStats = {
+        set_wins: 0,
+        set_losses: 0,
+        map_wins: 0,
+        map_losses: 0,
+      };
+      let playerStatsArray = [];
+      let cupsPlayerIsIn = [];
+      cups.forEach((cup) => {
+        cupsPlayerIsIn.push(cup.cup_name);
+        filteredGames.push(
+          cup.games.filter((item) => getAllPlayerGames(item, req.params.id))
+        );
+        cup.players.forEach((player) => {
+          if (player.username === req.params.id) {
+            playerStatsArray.push(player);
+            overallPlayerStats.set_wins += player.set_wins;
+            overallPlayerStats.set_losses += player.set_losses;
+            overallPlayerStats.map_wins += player.map_wins;
+            overallPlayerStats.map_losses += player.map_losses;
+          }
+        });
+      });
+      let data = {
+        filteredGames,
+        playerStatsArray,
+        overallPlayerStats,
+        cupsPlayerIsIn,
+      };
+      res.json(data);
+    })
+    .catch((err) => res.status(400).json("ERR: " + err));
+});
+
 router.route("/add/player/:id").post((req, res) => {
   const username = req.body.username;
 
   const newPlayer = new Player({ username });
 
   Cup.findOneAndUpdate(
-    { cup_name: req.params.id },
+    { _id: req.params.id },
     { $push: { players: newPlayer } }
-  ).then(() => res.json("player added"));
+  )
+    .then(() => res.json("player added"))
+    .catch((err) => res.status(400).json("ERR:" + err));
+});
+
+router.route("/games/get").get((req, res) => {
+  console.log("init");
+  Cup.find()
+    .then((cups) => {
+      let cupNames = [];
+      let gamesSortedByCup = [];
+      cups.forEach((cup) => {
+        cupNames.push(cup.cup_name);
+        gamesSortedByCup.push(cup.games);
+      });
+      let data = {
+        cupNames,
+        gamesSortedByCup,
+      };
+      res.json(data);
+    })
+    .catch((err) => res.status(400).json("ERR " + err));
 });
 
 router.route("/add/game/:id").post((req, res) => {

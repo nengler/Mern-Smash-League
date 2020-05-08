@@ -15,10 +15,18 @@ router.route("/add").post((req, res) => {
 
   const newPlayer = new Player({ username });
 
-  newPlayer
-    .save()
-    .then(() => res.json("Player added!"))
-    .catch((err) => res.status(400).json("Error:" + err));
+  Player.exists({ username: username })
+    .then((res) => {
+      if (res === false) {
+        newPlayer
+          .save()
+          .then(() => res.json("Player added!"))
+          .catch((err) => res.status(400).json("Error: " + err));
+      } else {
+        res.status(400).json("Duplicate Player:");
+      }
+    })
+    .catch((err) => res.status(400).json("Error " + err));
 });
 
 router.route("/:id").get((req, res) => {

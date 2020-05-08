@@ -1,8 +1,4 @@
-.create-cup {
-  display: flex;
-  justify-content: flex-end;
-  padding-bottom: 1rem;
-
+.label-checkboxes {
   input[type="checkbox"] {
     display: none;
   }
@@ -31,6 +27,12 @@
     background-color: $color-secondary;
     color: white;
   }
+}
+
+.create-cup {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 1rem;
 }
 
 .create-cup-header {

@@ -19,10 +19,13 @@ class CreatePlayer extends Component {
     const user = {
       username,
     };
-    axios.post(APIROUTE + "players/add", user).then(() => {
-      console.log("player created");
-      this.setState({ username: "" });
-    });
+    axios
+      .post(APIROUTE + "players/add", user)
+      .then(() => {
+        console.log("player created");
+        this.setState({ username: "" });
+      })
+      .catch((err) => console.log("error: " + err));
   };
 
   render() {

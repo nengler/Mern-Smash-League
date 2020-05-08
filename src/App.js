@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Standings from "./components/standings-component";
-import GameList from "./components/game-list-component";
+import GameList from "./functions/game-list-function";
 import CreateCups from "./containers/create-cups-container";
 import Player from "./components/player-component";
 import CreatePlayer from "./components/create-player-component";

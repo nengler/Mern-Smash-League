@@ -15,9 +15,9 @@ function CreateCups() {
   const [buttonSelected, setButtonSelected] = useState("create-cup");
   return (
     <div>
-      <div className="create-cup">
+      <div className="create-cup label-checkboxes">
         <label
-          for="create-cup"
+          htmlFor="create-cup"
           className={getClassName("create-cup", buttonSelected)}
         >
           Create Cup
@@ -30,7 +30,7 @@ function CreateCups() {
           />
         </label>
         <label
-          for="add-player"
+          htmlFor="add-player"
           className={getClassName("add-player", buttonSelected)}
         >
           Add player To Cup
@@ -43,7 +43,7 @@ function CreateCups() {
           />
         </label>
         <label
-          for="add-game"
+          htmlFor="add-game"
           className={getClassName("add-game", buttonSelected)}
         >
           Add Game To Cup

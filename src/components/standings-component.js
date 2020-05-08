@@ -12,7 +12,7 @@ class Standings extends Component {
   }
 
   componentDidMount() {
-    axios.get(APIROUTE + "cups").then((res) => {
+    axios.get(APIROUTE + "cups/leagues").then((res) => {
       this.setState({
         cupInformation: res.data,
       });
@@ -28,21 +28,40 @@ class Standings extends Component {
     console.log(this.state.cupInformation[this.state.cupSelectedIndex].players);
   };
 
+  getClassName = (cupIndex) => {
+    let labelClassName = "not-selected-label";
+    if (cupIndex === this.state.cupSelectedIndex) {
+      labelClassName = "selected-label";
+    }
+    return labelClassName;
+  };
+
+  handleChange = (index) => {
+    this.setState({ cupSelectedIndex: index });
+  };
+
   render() {
     return (
       <div>
-        <div className="cups">
+        <h1 className="header standings-header">League Standings</h1>
+        <div className="standings-checkbox label-checkboxes">
           {this.state.cupInformation.map((cup, index) => (
-            <button
-              className="button"
+            <label
+              htmlFor={cup.cup_name}
               key={cup.cup_name}
-              onClick={() => this.changeCup(index)}
+              className={this.getClassName(index)}
             >
               {cup.cup_name}
-            </button>
+              <input
+                onChange={() => this.handleChange(index)}
+                type="checkbox"
+                name="cup-selection"
+                id={cup.cup_name}
+                checked={index === this.state.cupSelectedIndex}
+              ></input>
+            </label>
           ))}
         </div>
-        <h1 className="header">Standings</h1>
         <table className="standings-table">
           <thead>
             <tr>
@@ -62,7 +81,7 @@ class Standings extends Component {
                   key={player._id}
                   onClick={() => this.handlePlayerRouting(player.username)}
                 >
-                  <td>{index}</td>
+                  <td>{index + 1}</td>
                   <td>{player.username}</td>
                   <td>{player.set_wins}</td>
                   <td>{player.set_losses}</td>

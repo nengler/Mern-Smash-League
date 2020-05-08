@@ -25,6 +25,10 @@ const cupSchema = new Schema(
     games: {
       type: [GameSchema],
     },
+    type: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
