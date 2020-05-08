@@ -8,6 +8,8 @@ class CreateGame extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      cups: [],
+      cupSelected: "",
       players: [],
       winner: "",
       loser: "",
@@ -18,13 +20,29 @@ class CreateGame extends Component {
   }
 
   componentDidMount() {
-    axios.get(APIROUTE + "players/").then((res) => {
-      this.setState({
-        players: res.data.map((user) => user.username),
-        winner: res.data[0].username,
-        loser: res.data[1].username,
-      });
-    });
+    axios
+      .get(APIROUTE + "cups/notSorted")
+      .then((res) => {
+        let cups = [];
+        let players = [];
+        res.data.forEach((info) => {
+          players.push(info.players);
+          let cupObject = {
+            cupName: info.cup_name,
+            id: info.id,
+          };
+          cups.push(cupObject);
+        });
+        console.log(players);
+        this.setState({
+          cups,
+          players,
+          cupSelected: res.data[0].cup_name,
+          winner: players[0][0],
+          loser: players[0][1],
+        });
+      })
+      .catch((err) => console.log(err));
   }
 
   handleDateChange = (date) => {
@@ -37,7 +55,7 @@ class CreateGame extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { winner, loser, mapWins, mapLosses, date } = this.state;
+    const { winner, loser, mapWins, mapLosses, date, cupSelected } = this.state;
     const game = {
       winner,
       loser,
@@ -45,8 +63,14 @@ class CreateGame extends Component {
       map_losses: mapLosses,
       date_played: date,
     };
+    let id = 0;
+    this.state.cups.forEach((cup, index) => {
+      if (cup.cupName === this.state.cupSelected) {
+        id = cup.id;
+      }
+    });
     axios
-      .post(APIROUTE + "games/add", game)
+      .post(APIROUTE + "cups/add/game/" + id, game)
       .then(() => {
         console.log("game created");
       })
@@ -57,10 +81,29 @@ class CreateGame extends Component {
   render() {
     const { winner, loser, mapWins, mapLosses } = this.state;
     const isInvalid = winner === loser || mapWins === "" || mapLosses === "";
+    let cupSelectedIndex = 0;
+    this.state.cups.forEach((cup, index) => {
+      if (cup.cupName === this.state.cupSelected) {
+        cupSelectedIndex = index;
+      }
+    });
     return (
       <div>
         <h1 className="header create-game-header">Add Game Record</h1>
         <form onSubmit={this.handleSubmit}>
+          <div className="row">
+            <select
+              name="cupSelected"
+              value={this.state.cupSelected}
+              onChange={this.handleChange}
+            >
+              {this.state.cups.map((cup) => (
+                <option key={cup.cupName} value={cup.cupName}>
+                  {cup.cupName}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="row">
             <div className="pr-1">
               <label className="select-label">Winner:</label>
@@ -69,11 +112,12 @@ class CreateGame extends Component {
                 value={this.state.winner}
                 onChange={this.handleChange}
               >
-                {this.state.players.map((player) => (
-                  <option key={player} value={player}>
-                    {player}
-                  </option>
-                ))}
+                {this.state.players.length !== 0 &&
+                  this.state.players[cupSelectedIndex].map((player) => (
+                    <option key={player} value={player}>
+                      {player}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="pl-1 pr-1">
@@ -83,11 +127,12 @@ class CreateGame extends Component {
                 value={this.state.loser}
                 onChange={this.handleChange}
               >
-                {this.state.players.map((player) => (
-                  <option key={player} value={player}>
-                    {player}
-                  </option>
-                ))}
+                {this.state.players.length !== 0 &&
+                  this.state.players[cupSelectedIndex].map((player) => (
+                    <option key={player} value={player}>
+                      {player}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="pl-1">

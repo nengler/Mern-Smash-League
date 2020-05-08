@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import { HOME, GAMELIST, CREATEGAME, CREATEPLAYER } from "../constants/routes";
+import { HOME, GAMELIST, CUPS, CREATEPLAYER } from "../constants/routes";
 
 class Navigation extends Component {
   constructor(props) {
@@ -42,11 +42,11 @@ class Navigation extends Component {
           </NavLink>
           <NavLink
             exact
-            to={CREATEGAME}
+            to={CUPS}
             className="nav-item"
             activeClassName="active-nav-item"
           >
-            Create Game
+            Cups
           </NavLink>
           <NavLink
             exact
@@ -92,7 +92,7 @@ class Navigation extends Component {
                 <li>
                   <NavLink
                     exact
-                    to={CREATEGAME}
+                    to={CUPS}
                     className="nav-item"
                     activeClassName="active-nav-item"
                     onClick={() => this.handleSandwichNavLinkClick()}

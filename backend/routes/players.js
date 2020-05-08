@@ -2,43 +2,9 @@ const router = require("express").Router();
 let Player = require("../models/player.model");
 let Game = require("../models/game.model");
 
-function orderPlayersByWins(players) {
-  for (let i = 0; i < players.length; i++) {
-    let highestWins = players[i].wins;
-    let highestWinPercentage =
-      players[i].map_wins / (players[i].map_wins + players[i].map_losses);
-    let highestWinsIndex = i;
-    let shouldSwap = false;
-    for (let j = i + 1; j < players.length; j++) {
-      let iteratedPlayerWinPer =
-        players[j].map_wins / (players[j].map_wins + players[j].map_losses);
-      if (players[j].wins > highestWins) {
-        highestWins = players[j].wins;
-        highestWinsIndex = j;
-        shouldSwap = true;
-        highestWinPercentage = iteratedPlayerWinPer;
-      } else if (
-        players[j].wins === highestWins &&
-        iteratedPlayerWinPer > highestWinPercentage
-      ) {
-        highestWinPercentage = iteratedPlayerWinPer;
-        highestWinsIndex = j;
-        shouldSwap = true;
-      }
-    }
-    if (shouldSwap) {
-      let temp = players[i];
-      players[i] = players[highestWinsIndex];
-      players[highestWinsIndex] = temp;
-    }
-  }
-  return players;
-}
-
 router.route("/").get((req, res) => {
   Player.find()
     .then((players) => {
-      players = orderPlayersByWins(players);
       res.json(players);
     })
     .catch((err) => res.status(400).json("Error:" + err));

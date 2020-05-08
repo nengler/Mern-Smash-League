@@ -6,7 +6,6 @@ const playerSchema = new Schema(
     username: {
       type: String,
       required: true,
-      unique: true,
     },
     set_wins: {
       type: Number,
@@ -30,6 +29,4 @@ const playerSchema = new Schema(
   }
 );
 
-const Player = mongoose.model("Player", playerSchema);
-
-module.exports = Player;
+module.exports = mongoose.model("Player", playerSchema);

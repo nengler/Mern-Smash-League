@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Standings from "./components/standings-component";
 import GameList from "./components/game-list-component";
-import CreateGame from "./components/create-game-component";
+import CreateCups from "./containers/create-cups-container";
 import Player from "./components/player-component";
 import CreatePlayer from "./components/create-player-component";
 import Navigation from "./components/navigation-component";
@@ -11,7 +11,7 @@ import {
   HOME,
   STANDINGS,
   GAMELIST,
-  CREATEGAME,
+  CUPS,
   CREATEPLAYER,
   PLAYER,
 } from "./constants/routes";
@@ -24,7 +24,7 @@ function App() {
         <div className="container">
           <Route path={[HOME, STANDINGS]} exact component={Standings} />
           <Route path={GAMELIST} exact component={GameList} />
-          <Route path={CREATEGAME} component={CreateGame} />
+          <Route path={CUPS} component={CreateCups} />
           <Switch>
             <Route path={CREATEPLAYER} exact component={CreatePlayer} />
             <Route path={PLAYER} component={Player} />
